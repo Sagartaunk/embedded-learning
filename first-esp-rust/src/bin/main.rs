@@ -14,6 +14,7 @@ use esp_hal::{
     delay::Delay,
     gpio::{Level, Output, OutputConfig},
 };
+use esp_println::println;
 
 #[panic_handler]
 fn panic(_: &core::panic::PanicInfo) -> ! {
@@ -38,9 +39,14 @@ fn main() -> ! {
     let mut led = Output::new(peripherals.GPIO2, Level::Low, OutputConfig::default());
     let delay = Delay::new();
 
+    for i in 0..100 {
+        println!("Something here times {}", i);
+    }
+
+    println!("Code exited, now starting blinking process");
+    delay.delay_millis(3000);
     loop {
         led.toggle();
         delay.delay_millis(1000);
     }
-    // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.2.2/examples
 }
