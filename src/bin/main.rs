@@ -7,19 +7,17 @@
 )]
 #![deny(clippy::large_stack_frames)]
 
-use esp_hal::clock::CpuClock;
-use esp_hal::main;
-use esp_hal::time::{Duration, Instant};
 use esp_hal::{
-    delay::Delay,
-    gpio::{Level, Output, OutputConfig},
+    clock::CpuClock,
+    main,
+    time::{Duration, Instant},
 };
-use esp_println::println;
 
 #[panic_handler]
 fn panic(_: &core::panic::PanicInfo) -> ! {
     loop {}
 }
+
 
 // This creates a default app-descriptor required by the esp-idf bootloader.
 // For more information see: <https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/app_image_format.html#application-description>
@@ -33,20 +31,18 @@ esp_bootloader_esp_idf::esp_app_desc!();
 fn main() -> ! {
     // generator version: 1.4.0
     // generator parameters: -o esp32
-    let peripherals = esp_hal::init(esp_hal::Config::default());
 
-    // GPIO2 = onboard LED on the DevKit V1
-    let mut led = Output::new(peripherals.GPIO2, Level::Low, OutputConfig::default());
-    let delay = Delay::new();
 
-    for i in 0..100 {
-        println!("Something here times {}", i);
-    }
+    let config = esp_hal::Config::default().with_cpu_clock(CpuClock::max());
+    let _peripherals = esp_hal::init(config);
 
-    println!("Code exited, now starting blinking process");
-    delay.delay_millis(3000);
+    
+
+
     loop {
-        led.toggle();
-        delay.delay_millis(1000);
+        let delay_start = Instant::now();
+        while delay_start.elapsed() < Duration::from_millis(500) {}
     }
+
+    // for inspiration have a look at the examples at https://github.com/esp-rs/esp-hal/tree/esp-hal-v1.2.2/examples
 }

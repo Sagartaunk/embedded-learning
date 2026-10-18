@@ -1,11 +1,11 @@
 [package]
 edition      = "2024"
-name         = "first-esp-rust"
+name         = "embedded-learning "
 rust-version = "1.95"
 version      = "0.1.0"
 
 [[bin]]
-name = "first-esp-rust"
+name = "embedded-learning "
 path = "./src/bin/main.rs"
 
 [dependencies]
@@ -15,7 +15,6 @@ esp-hal = { version = "~1.2.2", features = ["esp32"] }
 esp-bootloader-esp-idf = { version = "0.6.0", features = ["esp32"] }
 
 critical-section = "1.2.0"
-esp-println = { version = "0.18.0", features = ["esp32"] }
 
 
 # For fine tuning these settings, please refer to https://doc.rust-lang.org/cargo/reference/profiles.html
